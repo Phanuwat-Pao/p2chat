@@ -11,10 +11,10 @@ export default defineSchema({
   }),
   lineEvents: defineTable({
     isSignatureValid: v.boolean(),
-    lineSignature: v.string(),
+    signature: v.string(),
     event: v.any(),
   }),
   vips: defineTable({
-    userId: v.string(),
+    lineUserId: v.string(),
   }),
 });
