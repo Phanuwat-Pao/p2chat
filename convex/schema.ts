@@ -12,6 +12,6 @@ export default defineSchema({
   lineEvents: defineTable({
     generatedLineSignature: v.string(),
     lineSignature: v.string(),
-    event: v.object({}),
+    event: v.any(),
   }),
 });

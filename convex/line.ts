@@ -6,7 +6,7 @@ export const lineEvent = internalMutation({
   args: {
     lineSignature: v.string(),
     generatedLineSignature: v.string(),
-    event: v.object({}),
+    event: v.any(),
   },
   handler: async (ctx, args) => {
     return ctx.db.insert("lineEvents", args);
