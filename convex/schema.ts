@@ -9,4 +9,8 @@ export default defineSchema({
   numbers: defineTable({
     value: v.number(),
   }),
+  lineEvents: defineTable({
+    signature: v.string(),
+    event: v.object({}),
+  }),
 });
