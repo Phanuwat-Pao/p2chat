@@ -122,7 +122,7 @@ export const processLineWebhook = internalAction({
                       {
                         type: "text",
                         text: result.text,
-                        quoteToken: event.message.id,
+                        quoteToken: event.message.quoteToken,
                       },
                     ],
                   });
