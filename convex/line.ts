@@ -22,10 +22,8 @@ export const lineWebhook = httpAction(async (ctx, request) => {
     return new Response("No channel secret", { status: 400 });
   }
 
-  const [bodyJson, bodyText] = await Promise.all([
-    request.json(),
-    request.text(),
-  ]);
+  const bodyText = await request.text();
+  const bodyJson = JSON.parse(bodyText);
   const generatedLineSignature = await ctx.runAction(
     internal.node.generateLineSignature,
     {
