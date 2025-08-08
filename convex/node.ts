@@ -38,8 +38,6 @@ export const processLineWebhook = internalAction({
       event: bodyJson,
     });
 
-    console.log("vips", vips);
-
     const lineClient = new messagingApi.MessagingApiClient({
       channelAccessToken: process.env.LINE_CHANNEL_ACCESS_TOKEN,
     });
@@ -113,6 +111,7 @@ export const processLineWebhook = internalAction({
                   (isMentioned || event.source.type === "user") &&
                   isVipInChat
                 ) {
+                  console.log("saveMessage");
                   let prompt = event.message.text;
                   const {
                     thread: { threadId },
