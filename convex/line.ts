@@ -30,6 +30,7 @@ export const lineWebhook = httpAction(async (ctx, request) => {
     internal.node.generateLineSignature,
     {
       body: bodyText,
+      lineChannelSecret: process.env.LINE_CHANNEL_SECRET,
     },
   );
   await ctx.runMutation(internal.line.lineEvent, {
