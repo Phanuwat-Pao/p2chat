@@ -1,11 +1,12 @@
 "use node";
+import { saveMessage } from "@convex-dev/agent";
 import {
   messagingApi,
   validateSignature,
   type WebhookRequestBody,
 } from "@line/bot-sdk";
 import { v } from "convex/values";
-import { internal } from "./_generated/api";
+import { components, internal } from "./_generated/api";
 import { internalAction } from "./_generated/server";
 import { agent } from "./models/ai";
 
@@ -37,6 +38,12 @@ export const processLineWebhook = internalAction({
       event: bodyJson,
     });
 
+    console.log("vips", vips);
+
+    const lineClient = new messagingApi.MessagingApiClient({
+      channelAccessToken: process.env.LINE_CHANNEL_ACCESS_TOKEN,
+    });
+
     if (isSignatureValid) {
       for (const event of bodyJson.events) {
         let isVipInChat = false;
@@ -60,10 +67,7 @@ export const processLineWebhook = internalAction({
                       if (isVipInChat) {
                         break;
                       }
-                      const lineClient = new messagingApi.MessagingApiClient({
-                        channelAccessToken:
-                          process.env.LINE_CHANNEL_ACCESS_TOKEN,
-                      });
+
                       let members: string[] = [];
                       switch (event.source.type) {
                         case "user":
@@ -113,23 +117,23 @@ export const processLineWebhook = internalAction({
                   const {
                     thread: { threadId },
                   } = await agent.createThread(ctx);
-                  // const { messageId } = await saveMessage(
-                  //   ctx,
-                  //   components.agent,
-                  //   {
-                  //     threadId,
-                  //     prompt,
-                  //   },
-                  // );
-                  // await ctx.scheduler.runAfter(
-                  //   0,
-                  //   internal.line.generateResponseAsync,
-                  //   {
-                  //     threadId,
-                  //     promptMessageId: messageId,
-                  //     stream: false,
-                  //   },
-                  // );
+                  const { messageId } = await saveMessage(
+                    ctx,
+                    components.agent,
+                    {
+                      threadId,
+                      prompt,
+                    },
+                  );
+                  await ctx.scheduler.runAfter(
+                    0,
+                    internal.line.generateResponseAsync,
+                    {
+                      threadId,
+                      promptMessageId: messageId,
+                      stream: false,
+                    },
+                  );
                 }
                 break;
             }
