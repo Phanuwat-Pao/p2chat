@@ -13,6 +13,7 @@ export default defineSchema({
     isSignatureValid: v.boolean(),
     signature: v.string(),
     event: v.any(),
+    createdAt: v.number(),
   }),
   vips: defineTable({
     lineUserId: v.string(),

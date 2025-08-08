@@ -9,7 +9,10 @@ export const lineEvent = internalMutation({
     event: v.any(),
   },
   handler: async (ctx, args) => {
-    await ctx.db.insert("lineEvents", args);
+    await ctx.db.insert("lineEvents", {
+      ...args,
+      createdAt: Date.now(),
+    });
     return ctx.db.query("vips").collect();
   },
 });
@@ -34,9 +37,17 @@ export const lineWebhook = httpAction(async (ctx, request) => {
 export const deleteOldEvents = internalMutation({
   handler: async (ctx) => {
     await Promise.all(
-      (await ctx.db.query("lineEvents").collect()).map((event) =>
-        ctx.db.delete(event._id),
-      ),
+      (
+        await ctx.db
+          .query("lineEvents")
+          .filter((q) =>
+            q.lt(
+              q.field("createdAt"),
+              new Date(Date.now() - 1000 * 60 * 60 * 24 * 7).getTime(),
+            ),
+          )
+          .collect()
+      ).map((event) => ctx.db.delete(event._id)),
     );
   },
 });
