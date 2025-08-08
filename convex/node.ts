@@ -118,15 +118,23 @@ export const processLineWebhook = internalAction({
                       model: openrouter("@preset/p2chat"),
                       prompt,
                     });
+                    const messages: messagingApi.Message[] = [
+                      {
+                        type: "text",
+                        text: result.text,
+                        quoteToken: event.message.quoteToken,
+                      },
+                    ];
+                    if (result.reasoningText) {
+                      messages.unshift({
+                        type: "text",
+                        text: result.reasoningText,
+                        quoteToken: event.message.quoteToken,
+                      });
+                    }
                     await lineClient.replyMessage({
                       replyToken: event.replyToken,
-                      messages: [
-                        {
-                          type: "text",
-                          text: result.text,
-                          quoteToken: event.message.quoteToken,
-                        },
-                      ],
+                      messages,
                     });
                   }
                   break;
