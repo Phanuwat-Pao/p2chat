@@ -1,14 +1,14 @@
 "use node";
-import { saveMessage } from "@convex-dev/agent";
 import {
   messagingApi,
   validateSignature,
   type WebhookRequestBody,
 } from "@line/bot-sdk";
+import { generateText } from "ai";
 import { v } from "convex/values";
-import { components, internal } from "./_generated/api";
+import { internal } from "./_generated/api";
 import { internalAction } from "./_generated/server";
-import { agent } from "./models/ai";
+import { openrouter } from "./models/ai";
 
 export const processLineWebhook = internalAction({
   args: {
@@ -111,28 +111,16 @@ export const processLineWebhook = internalAction({
                   (isMentioned || event.source.type === "user") &&
                   isVipInChat
                 ) {
-                  console.log("saveMessage");
                   let prompt = event.message.text;
-                  const {
-                    thread: { threadId },
-                  } = await agent.createThread(ctx);
-                  const { messageId } = await saveMessage(
-                    ctx,
-                    components.agent,
-                    {
-                      threadId,
-                      prompt,
-                    },
-                  );
-                  await ctx.scheduler.runAfter(
-                    0,
-                    internal.line.generateResponseAsync,
-                    {
-                      threadId,
-                      promptMessageId: messageId,
-                      stream: false,
-                    },
-                  );
+                  const result = await generateText({
+                    //@ts-ignore
+                    model: openrouter("@preset/p2chat"),
+                    prompt,
+                  });
+                  await lineClient.replyMessage({
+                    replyToken: event.replyToken,
+                    messages: [{ type: "text", text: result.text }],
+                  });
                 }
                 break;
             }
