@@ -106,7 +106,10 @@ export const processLineWebhook = internalAction({
                     }
                   }
                 }
-                if (isMentioned && isVipInChat) {
+                if (
+                  (isMentioned || event.source.type === "user") &&
+                  isVipInChat
+                ) {
                   let prompt = event.message.text;
                   const {
                     thread: { threadId },
