@@ -69,7 +69,7 @@ export const processLineWebhook = internalAction({
                       switch (event.source.type) {
                         case "user":
                           isVipInChat = vips.some(
-                            (vip) => vip.userId === event.source.userId,
+                            (vip) => vip.lineUserId === event.source.userId,
                           );
                           break;
                         case "group":
@@ -80,7 +80,7 @@ export const processLineWebhook = internalAction({
                             );
                             members = groupMembers.memberIds;
                             isVipInChat = vips.some((vip) =>
-                              members.includes(vip.userId),
+                              members.includes(vip.lineUserId),
                             );
                             if (isVipInChat) {
                               break;
@@ -95,7 +95,7 @@ export const processLineWebhook = internalAction({
                             );
                             members = roomMembers.memberIds;
                             isVipInChat = vips.some((vip) =>
-                              members.includes(vip.userId),
+                              members.includes(vip.lineUserId),
                             );
                             if (isVipInChat) {
                               break;
