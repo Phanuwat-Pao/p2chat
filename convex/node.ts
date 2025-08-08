@@ -128,6 +128,7 @@ export const processLineWebhook = internalAction({
                     {
                       threadId,
                       promptMessageId: messageId,
+                      stream: false,
                     },
                   );
                 }
