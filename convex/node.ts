@@ -134,7 +134,7 @@ export const processLineWebhook = internalAction({
       }
       return "OK";
     } else {
-      return "Invalid signature";
+      throw new Error("Invalid signature");
     }
   },
 });

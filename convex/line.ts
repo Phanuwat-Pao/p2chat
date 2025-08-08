@@ -22,9 +22,11 @@ export const lineWebhook = httpAction(async (ctx, request) => {
   if (!process.env.LINE_CHANNEL_SECRET) {
     return new Response("No channel secret", { status: 400 });
   }
-  return ctx.runAction(internal.node.processLineWebhook, {
-    bodyText: await request.text(),
-    signature,
-    channelSecret: process.env.LINE_CHANNEL_SECRET,
-  });
+  return new Response(
+    await ctx.runAction(internal.node.processLineWebhook, {
+      bodyText: await request.text(),
+      signature,
+      channelSecret: process.env.LINE_CHANNEL_SECRET,
+    }),
+  );
 });
