@@ -11,7 +11,7 @@ import { agent } from "./models/ai";
 
 export const lineEvent = internalMutation({
   args: {
-    lineSignature: v.string(),
+    signature: v.string(),
     isSignatureValid: v.boolean(),
     event: v.any(),
   },
@@ -22,8 +22,8 @@ export const lineEvent = internalMutation({
 });
 
 export const lineWebhook = httpAction(async (ctx, request) => {
-  const lineSignature = request.headers.get("x-line-signature");
-  if (!lineSignature) {
+  const signature = request.headers.get("x-line-signature");
+  if (!signature) {
     return new Response("No signature", { status: 400 });
   }
   if (!process.env.LINE_CHANNEL_SECRET) {
@@ -31,8 +31,8 @@ export const lineWebhook = httpAction(async (ctx, request) => {
   }
   return ctx.runAction(internal.node.processLineWebhook, {
     bodyText: await request.text(),
-    lineSignature,
-    lineChannelSecret: process.env.LINE_CHANNEL_SECRET,
+    signature,
+    channelSecret: process.env.LINE_CHANNEL_SECRET,
   });
 });
 

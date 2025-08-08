@@ -13,10 +13,10 @@ import { agent } from "./models/ai";
 export const processLineWebhook = internalAction({
   args: {
     bodyText: v.string(),
-    lineSignature: v.string(),
-    lineChannelSecret: v.string(),
+    signature: v.string(),
+    channelSecret: v.string(),
   },
-  handler: async (ctx, { bodyText, lineSignature, lineChannelSecret }) => {
+  handler: async (ctx, { bodyText, signature, channelSecret }) => {
     if (!process.env.LINE_CHANNEL_SECRET) {
       throw new Error("LINE_CHANNEL_SECRET is not set");
     }
@@ -26,15 +26,15 @@ export const processLineWebhook = internalAction({
 
     const isSignatureValid = validateSignature(
       bodyText,
-      lineChannelSecret,
-      lineSignature,
+      channelSecret,
+      signature,
     );
 
     const bodyJson: WebhookRequestBody = JSON.parse(bodyText);
 
     const vips = await ctx.runMutation(internal.line.lineEvent, {
       isSignatureValid,
-      lineSignature,
+      signature,
       event: bodyJson,
     });
 
