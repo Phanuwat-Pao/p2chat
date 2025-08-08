@@ -47,6 +47,11 @@ export const processLineWebhook = internalAction({
         let isVipInChat = false;
         let isMentioned = false;
         let isQuoted = false;
+        if (event.source.type === "user") {
+          isVipInChat = vips.some(
+            (vip) => vip.lineUserId === event.source.userId,
+          );
+        }
         switch (event.type) {
           case "message":
             switch (event.message.type) {
@@ -65,14 +70,8 @@ export const processLineWebhook = internalAction({
                       if (isVipInChat) {
                         break;
                       }
-
                       let members: string[] = [];
                       switch (event.source.type) {
-                        case "user":
-                          isVipInChat = vips.some(
-                            (vip) => vip.lineUserId === event.source.userId,
-                          );
-                          break;
                         case "group":
                           let groupMembers: messagingApi.MembersIdsResponse;
                           do {
@@ -111,6 +110,7 @@ export const processLineWebhook = internalAction({
                   (isMentioned || event.source.type === "user") &&
                   isVipInChat
                 ) {
+                  console.log("generateText");
                   let prompt = event.message.text;
                   const result = await generateText({
                     //@ts-ignore
