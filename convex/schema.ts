@@ -15,6 +15,6 @@ export default defineSchema({
     event: v.any(),
   }),
   vips: defineTable({
-    userId: v.id("users"),
+    userId: v.string(),
   }),
 });
