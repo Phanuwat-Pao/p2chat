@@ -3,7 +3,7 @@ import { v } from "convex/values";
 import { internalAction } from "./_generated/server";
 import { openrouter } from "./models/ai";
 
-export const helloWorld = internalAction({
+export const chat = internalAction({
   args: { prompt: v.string() },
   handler: async (ctx, { prompt }) => {
     const result = await generateText({

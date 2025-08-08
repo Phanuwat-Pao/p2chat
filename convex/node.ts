@@ -110,7 +110,6 @@ export const processLineWebhook = internalAction({
                   (isMentioned || event.source.type === "user") &&
                   isVipInChat
                 ) {
-                  console.log("generateText");
                   let prompt = event.message.text;
                   const result = await generateText({
                     //@ts-ignore
@@ -119,7 +118,13 @@ export const processLineWebhook = internalAction({
                   });
                   await lineClient.replyMessage({
                     replyToken: event.replyToken,
-                    messages: [{ type: "text", text: result.text }],
+                    messages: [
+                      {
+                        type: "text",
+                        text: result.text,
+                        quoteToken: event.message.id,
+                      },
+                    ],
                   });
                 }
                 break;
@@ -127,9 +132,9 @@ export const processLineWebhook = internalAction({
             break;
         }
       }
-      return new Response("OK");
+      return "OK";
     } else {
-      return new Response("Invalid signature", { status: 400 });
+      return "Invalid signature";
     }
   },
 });
