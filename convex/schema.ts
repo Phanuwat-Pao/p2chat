@@ -10,7 +10,8 @@ export default defineSchema({
     value: v.number(),
   }),
   lineEvents: defineTable({
-    signature: v.string(),
+    generatedLineSignature: v.string(),
+    lineSignature: v.string(),
     event: v.object({}),
   }),
 });
