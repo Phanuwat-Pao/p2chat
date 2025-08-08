@@ -8,5 +8,6 @@ const openrouter = createOpenRouter({
 
 export const agent = new Agent(components.agent, {
   name: "My Agent",
+  //@ts-ignore
   chat: openrouter("@preset/p2chat"),
 });
