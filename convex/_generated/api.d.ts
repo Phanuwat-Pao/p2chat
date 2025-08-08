@@ -13,6 +13,7 @@ import type * as line from "../line.js";
 import type * as models_ai from "../models/ai.js";
 import type * as myFunctions from "../myFunctions.js";
 import type * as node from "../node.js";
+import type * as vips from "../vips.js";
 
 import type {
   ApiFromModules,
@@ -34,6 +35,7 @@ declare const fullApi: ApiFromModules<{
   "models/ai": typeof models_ai;
   myFunctions: typeof myFunctions;
   node: typeof node;
+  vips: typeof vips;
 }>;
 declare const fullApiWithMounts: typeof fullApi;
 

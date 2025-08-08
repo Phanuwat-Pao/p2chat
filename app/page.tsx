@@ -1,16 +1,14 @@
 "use client";
 
+import { SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
 import {
   Authenticated,
   Unauthenticated,
   useMutation,
   useQuery,
 } from "convex/react";
-import { api } from "../convex/_generated/api";
 import Link from "next/link";
-import { SignUpButton } from "@clerk/nextjs";
-import { SignInButton } from "@clerk/nextjs";
-import { UserButton } from "@clerk/nextjs";
+import { api } from "../convex/_generated/api";
 
 export default function Home() {
   return (
@@ -58,7 +56,10 @@ function Content() {
       count: 10,
     }) ?? {};
   const addNumber = useMutation(api.myFunctions.addNumber);
-
+  // const addVip = useMutation(api.vips.addVip);
+  // const removeVip = useMutation(api.vips.removeVip);
+  // const vips = useQuery(api.vips.getVips);
+  // const [lineUserId, setLineUserId] = useState("");
   if (viewer === undefined || numbers === undefined) {
     return (
       <div className="mx-auto">
@@ -142,6 +143,41 @@ function Content() {
           </div>
         </div>
       </div>
+      {/* <div className="flex flex-col gap-2">
+        <p className="text-lg font-bold">Add a VIP</p>
+        <input
+          type="text"
+          value={lineUserId}
+          onChange={(e) => setLineUserId(e.target.value)}
+          className="bg-slate-200 dark:bg-slate-800 p-2 rounded-md"
+        />
+        <button
+          className="bg-foreground text-background text-sm px-4 py-2 rounded-md"
+          onClick={() => {
+            void addVip({ lineUserId: lineUserId });
+          }}
+        >
+          Add VIP
+        </button>
+      </div>
+      <div className="flex flex-col gap-2">
+        <p className="text-lg font-bold">VIPs</p>
+        <div className="flex flex-col gap-2">
+          {vips?.map((vip) => (
+            <div key={vip._id}>
+              {vip.lineUserId}
+              <button
+                className="bg-foreground text-background text-sm px-4 py-2 rounded-md"
+                onClick={() => {
+                  void removeVip({ id: vip._id });
+                }}
+              >
+                Remove
+              </button>
+            </div>
+          ))}
+        </div>
+      </div> */}
     </div>
   );
 }
