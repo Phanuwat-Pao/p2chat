@@ -8,9 +8,9 @@
  * @module
  */
 
-import type * as ai from "../ai.js";
 import type * as http from "../http.js";
 import type * as line from "../line.js";
+import type * as models_ai from "../models/ai.js";
 import type * as myFunctions from "../myFunctions.js";
 import type * as node from "../node.js";
 
@@ -29,9 +29,9 @@ import type {
  * ```
  */
 declare const fullApi: ApiFromModules<{
-  ai: typeof ai;
   http: typeof http;
   line: typeof line;
+  "models/ai": typeof models_ai;
   myFunctions: typeof myFunctions;
   node: typeof node;
 }>;

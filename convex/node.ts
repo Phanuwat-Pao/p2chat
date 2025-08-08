@@ -10,14 +10,6 @@ import { components, internal } from "./_generated/api";
 import { internalAction } from "./_generated/server";
 import { agent } from "./models/ai";
 
-if (!process.env.LINE_CHANNEL_ACCESS_TOKEN) {
-  throw new Error("LINE_CHANNEL_ACCESS_TOKEN is not set");
-}
-
-const lineClient = new messagingApi.MessagingApiClient({
-  channelAccessToken: process.env.LINE_CHANNEL_ACCESS_TOKEN,
-});
-
 export const processLineWebhook = internalAction({
   args: {
     bodyText: v.string(),
@@ -28,6 +20,10 @@ export const processLineWebhook = internalAction({
     if (!process.env.LINE_CHANNEL_SECRET) {
       throw new Error("LINE_CHANNEL_SECRET is not set");
     }
+    if (!process.env.LINE_CHANNEL_ACCESS_TOKEN) {
+      throw new Error("LINE_CHANNEL_ACCESS_TOKEN is not set");
+    }
+
     const isSignatureValid = validateSignature(
       bodyText,
       lineChannelSecret,
@@ -65,7 +61,10 @@ export const processLineWebhook = internalAction({
                       if (isVipInChat) {
                         break;
                       }
-
+                      const lineClient = new messagingApi.MessagingApiClient({
+                        channelAccessToken:
+                          process.env.LINE_CHANNEL_ACCESS_TOKEN,
+                      });
                       let members: string[] = [];
                       switch (event.source.type) {
                         case "user":
