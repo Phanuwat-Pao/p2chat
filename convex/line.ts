@@ -30,3 +30,13 @@ export const lineWebhook = httpAction(async (ctx, request) => {
     }),
   );
 });
+
+export const deleteOldEvents = internalMutation({
+  handler: async (ctx) => {
+    await Promise.all(
+      (await ctx.db.query("lineEvents").collect()).map((event) =>
+        ctx.db.delete(event._id),
+      ),
+    );
+  },
+});
