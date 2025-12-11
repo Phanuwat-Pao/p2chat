@@ -11,3 +11,5 @@ crons.weekly(
   },
   internal.line.deleteOldEvents,
 );
+
+export default crons;
