@@ -1,4 +1,4 @@
-import ConvexClientProvider from "@/components/ConvexClientProvider";
+import ConvexClientProvider from "~/components/ConvexClientProvider";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
