@@ -4,6 +4,8 @@
     /** Base Options */
     "esModuleInterop": true,
     "skipLibCheck": true,
+    /** CSS side-effect imports: TypeScript 7 checks them by default, 5.x did not */
+    "noUncheckedSideEffectImports": false,
     "target": "ES2022",
     "allowJs": true,
     "resolveJsonModule": true,

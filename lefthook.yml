@@ -1,0 +1,6 @@
+# next build skips its type check (next.config.ts sets ignoreBuildErrors), so
+# this hook runs it with tsc-rs instead.
+pre-commit:
+  jobs:
+    - name: typecheck
+      run: pnpm typecheck

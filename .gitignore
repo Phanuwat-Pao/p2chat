@@ -38,6 +38,8 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+# tsBuildInfoFile in tsconfig.json
+/.cache/
 next-env.d.ts
 
 # Ignored for the template, you probably want to remove it:
