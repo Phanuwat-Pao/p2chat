@@ -10,7 +10,7 @@
     "predev": "convex dev --until-success && convex dashboard",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint",
     "typecheck": "tsc-rs --noEmit",
     "prepare": "lefthook install || true"
   },

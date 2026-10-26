@@ -112,9 +112,8 @@ export const processLineWebhook = internalAction({
                     (isMentioned || event.source.type === "user") &&
                     isVipInChat
                   ) {
-                    let prompt = event.message.text;
+                    const prompt = event.message.text;
                     const result = await generateText({
-                      //@ts-ignore
                       model: openrouter("@preset/p2chat"),
                       prompt,
                     });
