@@ -11,7 +11,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "typecheck": "tsc-rs --noEmit"
+    "typecheck": "tsc-rs --noEmit",
+    "prepare": "lefthook install || true"
   },
   "dependencies": {
     "@clerk/clerk-react": "^5.58.1",
